@@ -1,5 +1,8 @@
 import { type Request, type Response } from "express";
 import { UsersService } from "../services/users.service.js";
+import {
+  ForbiddenError
+} from "../utils/errors.js";
 
 export class UsersController {
   private readonly usersService: UsersService;
@@ -26,6 +29,10 @@ export class UsersController {
       data: user,
       message: "User retrieved successfully",
     });
+  };
+
+  getScopedUsers = async (req: Request, res: Response) => {
+    throw new ForbiddenError("Forbidden");
   };
 }
 
