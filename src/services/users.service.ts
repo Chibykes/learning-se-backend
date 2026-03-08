@@ -14,7 +14,7 @@ export class UsersService {
 
   async getUserById(id: number) {
     return {
-      id: 1,
+      id,
       name: "John Doe",
       email: "john.doe@example.com",
       age: 20,
