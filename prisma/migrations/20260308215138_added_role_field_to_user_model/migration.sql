@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "Post" ALTER COLUMN "updatedAt" DROP DEFAULT;
+
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "role" TEXT NOT NULL DEFAULT 'user',
+ALTER COLUMN "updatedAt" DROP DEFAULT;

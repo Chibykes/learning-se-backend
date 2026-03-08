@@ -1,8 +1,9 @@
-import express, { type Request, type Response } from "express";
-import { globalErrorHandler } from "./middlewares/error.middleware.js";
-import morganMiddleware from "./middlewares/morgan.middleware.js";
-import usersRouter from "./routes/users.route.js";
-import { NotFoundError } from "./utils/errors.js";
+import express, { type Request, type Response } from 'express';
+import { globalErrorHandler } from './middlewares/error.middleware.js';
+import morganMiddleware from './middlewares/morgan.middleware.js';
+import usersRouter from './routes/users.route.js';
+import postsRouter from './routes/posts.route.js';
+import { NotFoundError } from './utils/errors.js';
 
 const PORT = 2200;
 
@@ -11,16 +12,17 @@ const app = express();
 app.use(express.json());
 app.use(morganMiddleware);
 
-app.get("/", (req: Request, res: Response) => {
+app.get('/', (req: Request, res: Response) => {
   res.json({
-    status: "success",
-    message: "Hello World",
+    status: 'success',
+    message: 'Hello World',
   });
 });
-app.use("/users", usersRouter);
+app.use('/users', usersRouter);
+app.use('/posts', postsRouter);
 
-app.all("*path", (req: Request, res: Response) => {
-  throw new NotFoundError("Resource not found");
+app.all('*path', (req: Request, res: Response) => {
+  throw new NotFoundError('Resource not found');
 });
 
 app.use(globalErrorHandler);

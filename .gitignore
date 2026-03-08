@@ -3,3 +3,7 @@
 /build
 /coverage
 /logs
+/src/generated/prisma
+
+.env
+.env*

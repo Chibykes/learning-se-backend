@@ -1,8 +1,6 @@
-import { type Request, type Response } from "express";
-import { UsersService } from "../services/users.service.js";
-import {
-  ForbiddenError
-} from "../utils/errors.js";
+import { type Request, type Response } from 'express';
+import { UsersService } from '../services/users.service.js';
+import { ForbiddenError } from '../utils/errors.js';
 
 export class UsersController {
   private readonly usersService: UsersService;
@@ -15,9 +13,9 @@ export class UsersController {
     const users = await this.usersService.getUsers();
 
     return res.json({
-      status: "success",
+      status: 'success',
       data: users,
-      message: "Users retrieved successfully",
+      message: 'Users retrieved successfully',
     });
   };
 
@@ -25,14 +23,39 @@ export class UsersController {
     const user = await this.usersService.getUserById(Number(req.params.id));
 
     return res.json({
-      status: "success",
+      status: 'success',
       data: user,
-      message: "User retrieved successfully",
+      message: 'User retrieved successfully',
+    });
+  };
+  
+  createUser = async (req: Request, res: Response) => {
+    const user = await this.usersService.createUser(req.body);
+    return res.json({
+      status: 'success',
+      data: user,
+      message: 'User created successfully',
     });
   };
 
-  getScopedUsers = async (req: Request, res: Response) => {
-    throw new ForbiddenError("Forbidden");
+  updateUser = async (req: Request, res: Response) => {
+    const user = await this.usersService.updateUser(Number(req.params.id), req.body);
+    return res.json({
+      status: 'success',
+      data: user,
+      message: 'User updated successfully',
+    });
+  };
+
+  deleteUser = async (req: Request, res: Response) => {
+    await this.usersService.deleteUser(Number(req.params.id));
+    return res.json({
+      status: 'success',
+      message: 'User deleted successfully',
+    });
+  };
+  getForbiddenUsers = async (req: Request, res: Response) => {
+    throw new ForbiddenError('Forbidden');
   };
 }
 
