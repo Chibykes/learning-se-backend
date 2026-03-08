@@ -1,9 +1,8 @@
 import express, { type Request, type Response } from "express";
-import usersRouter from "./routes/users.route.js";
 import { globalErrorHandler } from "./middlewares/error.middleware.js";
-import { NotFoundError, UnprocessableEntityError } from "./utils/errors.js";
 import morganMiddleware from "./middlewares/morgan.middleware.js";
-import logger from "./utils/logger.js";
+import usersRouter from "./routes/users.route.js";
+import { NotFoundError } from "./utils/errors.js";
 
 const PORT = 2200;
 
