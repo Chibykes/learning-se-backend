@@ -28,8 +28,18 @@ export class UsersController {
       message: 'User retrieved successfully',
     });
   };
-  
+
+  getUserByIdWithPosts = async (req: Request, res: Response) => {
+    const user = await this.usersService.getUserByIdWithPosts(Number(req.params.id));
+    return res.json({
+      status: 'success',
+      data: user,
+      message: 'User retrieved with posts successfully',
+    });
+  };
+
   createUser = async (req: Request, res: Response) => {
+    console.log('Request body', req.body);
     const user = await this.usersService.createUser(req.body);
     return res.json({
       status: 'success',
@@ -39,6 +49,7 @@ export class UsersController {
   };
 
   updateUser = async (req: Request, res: Response) => {
+    console.log('Request body', req.body);
     const user = await this.usersService.updateUser(Number(req.params.id), req.body);
     return res.json({
       status: 'success',

@@ -1,5 +1,6 @@
 import type { User } from '../generated/prisma/client.js';
 import { prisma } from '../lib/prisma.js';
+import { ConflictError } from '../utils/errors.js';
 
 export class UsersService {
   constructor() {}
@@ -16,7 +17,36 @@ export class UsersService {
     return user;
   }
 
+  async getUserByIdWithPosts(id: number) {
+    const user = await prisma.user.findUnique({
+      where: { id },
+      include: {
+        // Include posts in the response
+        // posts: true
+        // Select only the fields we need from the posts
+        posts: {
+          select: {
+            id: true,
+            title: true,
+            content: true,
+            published: true,
+            // author: true,
+          },
+        },
+      }, // Include posts in the response
+    });
+    return user;
+  }
+
   createUser = async (user: User) => {
+    const isEmailExists = await prisma.user.findUnique({
+      where: { email: user.email },
+    });
+
+    if (isEmailExists) {
+      throw new ConflictError('Email already exists');
+    }
+
     const newUser = await prisma.user.create({
       data: user,
     });
