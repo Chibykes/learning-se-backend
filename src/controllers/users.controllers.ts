@@ -8,7 +8,7 @@ export class UsersController {
   constructor() {
     this.usersService = new UsersService();
   }
-
+  
   getUsers = async (req: Request, res: Response) => {
     const users = await this.usersService.getUsers();
 

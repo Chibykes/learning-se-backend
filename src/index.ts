@@ -1,16 +1,19 @@
 import express, { type Request, type Response } from 'express';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './docs/index.js';
 import { globalErrorHandler } from './middlewares/error.middleware.js';
 import morganMiddleware from './middlewares/morgan.middleware.js';
-import usersRouter from './routes/users.route.js';
 import postsRouter from './routes/posts.route.js';
+import usersRouter from './routes/users.route.js';
 import { NotFoundError } from './utils/errors.js';
 
 const PORT = 2200;
 
 const app = express();
-
 app.use(express.json());
 app.use(morganMiddleware);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get('/', (req: Request, res: Response) => {
   res.json({

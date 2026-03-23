@@ -1,0 +1,14 @@
+{
+  "/posts": {
+    "get": {
+      "tags": ["Posts"],
+      "summary": "Get all posts",
+      "description": "Get all posts from the database",
+      "responses": {
+        "200": {
+          "description": "Posts retrieved successfully"
+        }
+      }
+    }
+  }
+}

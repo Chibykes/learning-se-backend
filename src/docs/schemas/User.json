@@ -1,0 +1,12 @@
+{
+  "User": {
+    "properties": {
+      "id": { "type": "integer" },
+      "name": { "type": "string" },
+      "email": { "type": "string" },
+      "createdAt": { "type": "string", "format": "date-time" },
+      "updatedAt": { "type": "string", "format": "date-time" }
+    },
+    "required": ["id", "name", "email", "createdAt", "updatedAt"]
+  }
+}

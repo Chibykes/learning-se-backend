@@ -1,0 +1,14 @@
+{
+  "Post": {
+    "properties": {
+      "id": { "type": "integer" },
+      "title": { "type": "string" },
+      "content": { "type": "string" },
+      "published": { "type": "boolean" },
+      "authorId": { "type": "integer" },
+      "createdAt": { "type": "string", "format": "date-time" },
+      "updatedAt": { "type": "string", "format": "date-time" }
+    },
+    "required": ["id", "title", "content", "published", "authorId", "createdAt", "updatedAt"]
+  }
+}

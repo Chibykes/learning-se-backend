@@ -1,0 +1,178 @@
+{
+  "/users": {
+    "get": {
+      "tags": ["Users"],
+      "summary": "Get all users",
+      "description": "Get all users from the database",
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": { "type": "string" },
+                  "data": { "type": "array", "items": { "$ref": "#/components/schemas/User" } },
+                  "message": { "type": "string" }
+                },
+                "required": ["status", "data", "message"]
+              }
+            }
+          },
+          "description": "Users retrieved successfully"
+        }
+      }
+    },
+    "post": {
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "email": { "type": "string" }
+              },
+              "required": ["name", "email"]
+            }
+          }
+        }
+      },
+      "tags": ["Users"],
+      "summary": "Create a user",
+      "description": "Create a user in the database",
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": { "type": "string" },
+                  "data": { "$ref": "#/components/schemas/User" },
+                  "message": { "type": "string" }
+                },
+                "required": ["status", "data", "message"]
+              }
+            }
+          },
+          "description": "User created successfully"
+        }
+      }
+    }
+  },
+  "/users/:id": {
+    "get": {
+      "tags": ["Users"],
+      "summary": "Get a user by ID",
+      "description": "Get a user by ID from the database",
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": { "type": "string" },
+                  "data": { "$ref": "#/components/schemas/User" },
+                  "message": { "type": "string" }
+                },
+                "required": ["status", "data", "message"]
+              }
+            }
+          },
+          "description": "User retrieved successfully"
+        }
+      }
+    },
+    "put": {
+      "tags": ["Users"],
+      "summary": "Update a user by ID",
+      "description": "Update a user by ID in the database",
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": { "type": "string" },
+                  "data": { "$ref": "#/components/schemas/User" },
+                  "message": { "type": "string" }
+                },
+                "required": ["status", "data", "message"]
+              }
+            }
+          },
+          "description": "User updated successfully"
+        }
+      },
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "email": { "type": "string" }
+              },
+              "required": ["name", "email"]
+            }
+          }
+        }
+      }
+    },
+    "delete": {
+      "tags": ["Users"],
+      "summary": "Delete a user by ID",
+      "description": "Delete a user by ID in the database",
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": { "type": "string" },
+                  "message": { "type": "string" }
+                },
+                "required": ["status", "message"]
+              }
+            }
+          },
+          "description": "User deleted successfully"
+        }
+      }
+    }
+  },
+  "/users/:id/posts": {
+    "get": {
+      "tags": ["Users"],
+      "summary": "Get a user's posts by ID",
+      "description": "Get a user's posts by ID from the database",
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": { "type": "string" },
+                  "data": { "type": "array", "items": { "$ref": "#/components/schemas/Post" } },
+                  "message": { "type": "string" }
+                },
+                "required": ["status", "data", "message"]
+              }
+            }
+          },
+          "description": "User's posts retrieved successfully"
+        }
+      }
+    }
+  }
+}
