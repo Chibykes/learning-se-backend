@@ -18,4 +18,3 @@ export default function jwtAuthMiddleware(req: Request, res: Response, next: Nex
     throw new UnauthorizedError('Access token is invalid or expired');
   }
 }
-x
