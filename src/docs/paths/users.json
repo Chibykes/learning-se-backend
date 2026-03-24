@@ -9,6 +9,26 @@
           "BearerAuth": []
         }
       ],
+      "parameters": [
+        {
+          "name": "page",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "integer"
+          },
+          "description": "Page number"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "integer"
+          },
+          "description": "Number of items per page"
+        }
+      ],
       "responses": {
         "200": {
           "content": {
@@ -40,6 +60,27 @@
               },
               "required": ["name", "email"]
             }
+          },
+          "application/x-www-form-urlencoded": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "description": "User name" },
+                "email": { "type": "string", "description": "User email" }
+              },
+              "required": ["name", "email"]
+            }
+          },
+          "multipart/form-data": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "description": "User name" },
+                "email": { "type": "string", "description": "User email" },
+                "picture": { "type": "string", "format": "binary", "description": "User picture" }
+              },
+              "required": ["name", "email"]
+            }
           }
         }
       },
@@ -66,11 +107,21 @@
       }
     }
   },
-  "/users/:id": {
+  "/users/{id}": {
     "get": {
       "tags": ["Users"],
       "summary": "Get a user by ID",
       "description": "Get a user by ID from the database",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
       "responses": {
         "200": {
           "content": {
@@ -94,6 +145,16 @@
       "tags": ["Users"],
       "summary": "Update a user by ID",
       "description": "Update a user by ID in the database",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
       "responses": {
         "200": {
           "content": {
@@ -131,6 +192,16 @@
       "tags": ["Users"],
       "summary": "Delete a user by ID",
       "description": "Delete a user by ID in the database",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
       "responses": {
         "200": {
           "content": {
@@ -150,11 +221,21 @@
       }
     }
   },
-  "/users/:id/posts": {
+  "/users/{id}/posts": {
     "get": {
       "tags": ["Users"],
       "summary": "Get a user's posts by ID",
       "description": "Get a user's posts by ID from the database",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
       "responses": {
         "200": {
           "content": {

@@ -1,6 +1,6 @@
 import { type Request, type Response } from 'express';
 import { UsersService } from '../services/users.service.js';
-import { ForbiddenError } from '../utils/errors.js';
+import { ForbiddenError, NotFoundError } from '../utils/errors.js';
 
 export class UsersController {
   private readonly usersService: UsersService;
@@ -8,7 +8,7 @@ export class UsersController {
   constructor() {
     this.usersService = new UsersService();
   }
-  
+
   getUsers = async (req: Request, res: Response) => {
     const users = await this.usersService.getUsers();
 
@@ -21,6 +21,10 @@ export class UsersController {
 
   getUserById = async (req: Request, res: Response) => {
     const user = await this.usersService.getUserById(Number(req.params.id));
+
+    if (!user) {
+      throw new NotFoundError('User not found');
+    }
 
     return res.json({
       status: 'success',
