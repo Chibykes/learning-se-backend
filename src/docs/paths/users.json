@@ -107,6 +107,36 @@
       }
     }
   },
+  "/users/me": {
+    "get": {
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "tags": ["Users"],
+      "summary": "Get current user",
+      "description": "Get current user from the database",
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": { "type": "string" },
+                  "data": { "$ref": "#/components/schemas/User" },
+                  "message": { "type": "string" }
+                },
+                "required": ["status", "data", "message"]
+              }
+            }
+          },
+          "description": "User retrieved successfully"
+        }
+      }
+    }
+  },
   "/users/{id}": {
     "get": {
       "tags": ["Users"],

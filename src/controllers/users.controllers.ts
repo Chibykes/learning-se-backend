@@ -9,6 +9,15 @@ export class UsersController {
     this.usersService = new UsersService();
   }
 
+  getMe = async (req: Request, res: Response) => {
+    const user = await this.usersService.getUserById(Number(req.user?.id));
+    return res.json({
+      status: 'success',
+      data: user,
+      message: 'User retrieved successfully',
+    });
+  };
+
   getUsers = async (req: Request, res: Response) => {
     const users = await this.usersService.getUsers();
 

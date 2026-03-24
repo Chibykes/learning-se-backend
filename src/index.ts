@@ -5,6 +5,7 @@ import { globalErrorHandler } from './middlewares/error.middleware.js';
 import morganMiddleware from './middlewares/morgan.middleware.js';
 import postsRouter from './routes/posts.route.js';
 import usersRouter from './routes/users.route.js';
+import authRouter from './routes/auth.route.js';
 import { NotFoundError } from './utils/errors.js';
 
 const PORT = 2200;
@@ -21,6 +22,7 @@ app.get('/', (req: Request, res: Response) => {
     message: 'Hello World',
   });
 });
+app.use('/auth', authRouter);
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 

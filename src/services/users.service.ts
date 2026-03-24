@@ -6,13 +6,24 @@ export class UsersService {
   constructor() {}
 
   async getUsers() {
-    const users = await prisma.user.findMany();
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
     return users;
   }
 
   async getUserById(id: number) {
     const user = await prisma.user.findUnique({
       where: { id },
+      omit: {
+        password: true,
+      },
     });
     return user;
   }
