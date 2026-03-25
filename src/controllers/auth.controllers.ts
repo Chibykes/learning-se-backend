@@ -40,6 +40,12 @@ export class AuthController {
       throw new BadRequestError('User login failed');
     }
 
+    await this.authService.createLoginHistory({
+      userId: user.id,
+      browser: req.headers['user-agent'] || undefined,
+      ipAddress: req.ip || undefined,
+    });
+
     const payload: JWTPayload = { id: user.id, email: user.email };
     const accessToken = this.authService.generateJwtToken(payload, { expiresIn: '15m' });
     const refreshToken = this.authService.generateJwtToken(payload, { expiresIn: '7d' });
@@ -50,6 +56,35 @@ export class AuthController {
       accessToken,
       refreshToken,
       message: 'User logged in successfully',
+    });
+  };
+
+  passportGoogleCallback = async (req: Request, res: Response) => {
+    const payload: JWTPayload = { id: req.user?.id!, email: req.user?.email! };
+    const accessToken = this.authService.generateJwtToken(payload, { expiresIn: '15m' });
+    const refreshToken = this.authService.generateJwtToken(payload, { expiresIn: '7d' });
+
+    res.redirect(`https://yourfrontend.com/login-success?access_token=${accessToken}&refresh_token=${refreshToken}`);
+  };
+
+  googleSigninWithTokens = async (req: Request, res: Response) => {
+    const tokens: { idToken?: string; accessToken?: string } = req.body;
+    const user = await this.authService.googleSigninWithTokens(tokens);
+
+    if (!user) {
+      throw new BadRequestError('Google signin failed');
+    }
+
+    const payload: JWTPayload = { id: user.id, email: user.email };
+    const accessToken = this.authService.generateJwtToken(payload, { expiresIn: '15m' });
+    const refreshToken = this.authService.generateJwtToken(payload, { expiresIn: '7d' });
+
+    return res.json({
+      status: 'success',
+      data: user,
+      accessToken,
+      refreshToken,
+      message: 'Google signin successful',
     });
   };
 }

@@ -7,12 +7,16 @@ import postsRouter from './routes/posts.route.js';
 import usersRouter from './routes/users.route.js';
 import authRouter from './routes/auth.route.js';
 import { NotFoundError } from './utils/errors.js';
+import passport from 'passport';
+import './config/passport.js';
 
 const PORT = 2200;
 
 const app = express();
 app.use(express.json());
 app.use(morganMiddleware);
+
+app.use(passport.initialize());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
