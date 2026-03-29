@@ -1,6 +1,7 @@
 import { type Request, type Response } from 'express';
 import { UsersService } from '../services/users.service.js';
 import { BadRequestError, ForbiddenError, NotFoundError } from '../utils/errors.js';
+import redis from '../lib/redis.js';
 
 export class UsersController {
   private readonly usersService: UsersService;
@@ -18,8 +19,21 @@ export class UsersController {
     });
   };
 
+  // Redis usage for simple caching
   getUsers = async (req: Request, res: Response) => {
+    const cacheKey = 'users';
+    const cachedUsers = await redis.get(cacheKey);
+
+    if (cachedUsers) {
+      return res.json({
+        status: 'success',
+        data: JSON.parse(cachedUsers),
+        message: 'Users retrieved from cache',
+      });
+    }
+
     const users = await this.usersService.getUsers();
+    redis.set(cacheKey, JSON.stringify(users), 'EX', 60);
 
     return res.json({
       status: 'success',
