@@ -1,16 +1,17 @@
 import express, { type Request, type Response } from 'express';
+import path from 'node:path';
+import passport from 'passport';
 import swaggerUi from 'swagger-ui-express';
+import './config/passport.js';
+import { limiter } from './config/rate-limiter.js';
 import swaggerDocument from './docs/index.js';
 import { globalErrorHandler } from './middlewares/error.middleware.js';
 import morganMiddleware from './middlewares/morgan.middleware.js';
-import postsRouter from './routes/posts.route.js';
-import usersRouter from './routes/users.route.js';
 import authRouter from './routes/auth.route.js';
+import postsRouter from './routes/posts.route.js';
 import uploadRouter from './routes/upload.route.js';
+import usersRouter from './routes/users.route.js';
 import { NotFoundError } from './utils/errors.js';
-import passport from 'passport';
-import './config/passport.js';
-import path from 'node:path';
 
 const PORT = 2200;
 const publicDir = path.resolve(process.cwd(), 'public');
@@ -19,6 +20,9 @@ const app = express();
 app.use(express.json());
 app.use(express.static(publicDir));
 app.use(morganMiddleware);
+
+// Apply the rate limiting middleware to all requests.
+app.use(limiter);
 
 app.use(passport.initialize());
 

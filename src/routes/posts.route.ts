@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { PostsController } from '../controllers/posts.controllers.js';
 import { validate } from '../middlewares/validation.middleware.js';
 import { createPostSchema, patchPostSchema, updatePostSchema } from '../schemas/posts.schemas.js';
+import { limiter } from '../config/rate-limiter.js';
 
 const router = Router();
 const postsController = new PostsController();
