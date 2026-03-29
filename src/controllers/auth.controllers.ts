@@ -47,7 +47,7 @@ export class AuthController {
     });
 
     const payload: JWTPayload = { id: user.id, email: user.email };
-    const accessToken = this.authService.generateJwtToken(payload, { expiresIn: '15m' });
+    const accessToken = this.authService.generateJwtToken(payload, { expiresIn: '1d' }); // Change to 15m when deploying
     const refreshToken = this.authService.generateJwtToken(payload, { expiresIn: '7d' });
 
     return res.json({

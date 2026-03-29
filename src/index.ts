@@ -9,11 +9,14 @@ import authRouter from './routes/auth.route.js';
 import { NotFoundError } from './utils/errors.js';
 import passport from 'passport';
 import './config/passport.js';
+import path from 'node:path';
 
 const PORT = 2200;
+const publicDir = path.resolve(process.cwd(), 'public');
 
 const app = express();
 app.use(express.json());
+app.use(express.static(publicDir));
 app.use(morganMiddleware);
 
 app.use(passport.initialize());

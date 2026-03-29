@@ -19,6 +19,10 @@ export class UsersService {
   }
 
   async getUserById(id: number) {
+    if (!id) {
+      throw new Error('User ID is required');
+    }
+    
     const user = await prisma.user.findUnique({
       where: { id },
       omit: {
@@ -47,6 +51,18 @@ export class UsersService {
       }, // Include posts in the response
     });
     return user;
+  }
+
+  async updateUserAvatar(id: number, avatar: string) {
+    if (!id) {
+      throw new Error('User ID is required');
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id },
+      data: { avatar },
+    });
+    return updatedUser;
   }
 
   createUser = async (user: User) => {
