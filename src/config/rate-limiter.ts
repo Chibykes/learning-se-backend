@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { rateLimit } from 'express-rate-limit';
+import { ipKeyGenerator, rateLimit } from 'express-rate-limit';
 import { RedisStore } from 'rate-limit-redis';
 import redis from '../lib/redis.js';
 
@@ -29,6 +29,6 @@ export const limiter = rateLimit({
   // 5. Key Generator (Crucial for Mobile/CGNAT in Nigeria)
   keyGenerator: (req: Request) => {
     // If user is logged in, limit by User ID. Otherwise, use IP.
-    return String(req.user?.id || req.ip || 'unknown');
+    return String(req.user?.id || ipKeyGenerator(req.ip || '') || 'unknown');
   },
 });
