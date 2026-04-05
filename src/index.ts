@@ -11,6 +11,7 @@ import authRouter from './routes/auth.route.js';
 import postsRouter from './routes/posts.route.js';
 import uploadRouter from './routes/upload.route.js';
 import usersRouter from './routes/users.route.js';
+import pollingRouter from './routes/polling.route.js';
 import { NotFoundError } from './utils/errors.js';
 
 const PORT = 2200;
@@ -38,6 +39,7 @@ app.use('/auth', authRouter);
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 app.use('/upload', uploadRouter);
+app.use('/polling', pollingRouter);
 
 app.all('*path', (req: Request, res: Response) => {
   throw new NotFoundError('Resource not found');
