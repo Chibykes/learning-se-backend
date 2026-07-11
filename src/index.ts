@@ -13,11 +13,15 @@ import uploadRouter from './routes/upload.route.js';
 import usersRouter from './routes/users.route.js';
 import pollingRouter from './routes/polling.route.js';
 import { NotFoundError } from './utils/errors.js';
+import http from 'node:http';
+import { initSocket } from './config/socket.js';
 
 const PORT = 2200;
 const publicDir = path.resolve(process.cwd(), 'public');
-
 const app = express();
+const server = http.createServer(app);
+initSocket(server);
+
 app.use(express.json());
 app.use(express.static(publicDir));
 app.use(morganMiddleware);
@@ -47,6 +51,6 @@ app.all('*path', (req: Request, res: Response) => {
 
 app.use(globalErrorHandler);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
